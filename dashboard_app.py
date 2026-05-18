@@ -570,19 +570,6 @@ else:
             width="stretch",
         )
 
-    source_win_rate_chart = polished_bar_chart(
-        source_win_rate,
-        x="Source",
-        y="win_rate",
-        title="Win Rate by Source",
-        is_percent=True,
-        custom_data=["closed_deals"],
-        hovertemplate=(
-            "%{x}<br>Win rate: %{y:.1%}<br>"
-            "Closed deals: %{customdata[0]:,}<extra></extra>"
-        ),
-    )
-    st.plotly_chart(source_win_rate_chart, width="stretch")
     left, right = st.columns(2)
     with left:
         st.plotly_chart(
@@ -617,6 +604,20 @@ else:
             ),
             width="stretch",
         )
+
+    source_win_rate_chart = polished_bar_chart(
+        source_win_rate,
+        x="Source",
+        y="win_rate",
+        title="Win Rate by Source",
+        is_percent=True,
+        custom_data=["closed_deals"],
+        hovertemplate=(
+            "%{x}<br>Win rate: %{y:.1%}<br>"
+            "Closed deals: %{customdata[0]:,}<extra></extra>"
+        ),
+    )
+    st.plotly_chart(source_win_rate_chart, width="stretch")
 
     left, right = st.columns(2)
     with left:
