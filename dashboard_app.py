@@ -521,6 +521,10 @@ else:
     crm_win_rate = win_rate_by(filtered_data, "Client CRM")
     country_win_rate = country_win_rate[country_win_rate["win_rate"] > 0]
     crm_win_rate = crm_win_rate[crm_win_rate["win_rate"] > 0]
+    country_win_rate_min_5 = country_win_rate[
+        country_win_rate["closed_deals"] >= 5
+    ]
+    crm_win_rate_min_5 = crm_win_rate[crm_win_rate["closed_deals"] >= 5]
     stage_counts = (
         filtered_data["Stage"].value_counts(dropna=False).rename_axis("Stage").reset_index(name="deals")
     )
@@ -554,6 +558,41 @@ else:
                 x="Client CRM",
                 y="win_rate",
                 title="Win Rate by CRM",
+                is_percent=True,
+                custom_data=["closed_deals"],
+                hovertemplate=(
+                    "%{x}<br>Win rate: %{y:.1%}<br>"
+                    "Closed deals: %{customdata[0]:,}<extra></extra>"
+                ),
+            ),
+            width="stretch",
+        )
+
+    left, right = st.columns(2)
+    with left:
+        st.plotly_chart(
+            polished_bar_chart(
+                country_win_rate_min_5,
+                x="Country",
+                y="win_rate",
+                title="Win Rate by Countries (5+ Closed Deals)",
+                is_percent=True,
+                custom_data=["closed_deals"],
+                hovertemplate=(
+                    "%{x}<br>Win rate: %{y:.1%}<br>"
+                    "Closed deals: %{customdata[0]:,}<extra></extra>"
+                ),
+            ),
+            width="stretch",
+        )
+
+    with right:
+        st.plotly_chart(
+            polished_bar_chart(
+                crm_win_rate_min_5,
+                x="Client CRM",
+                y="win_rate",
+                title="Win Rate by CRM (5+ Closed Deals)",
                 is_percent=True,
                 custom_data=["closed_deals"],
                 hovertemplate=(
