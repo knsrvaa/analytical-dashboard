@@ -519,8 +519,10 @@ else:
     country_data["Country"] = country_data["Client country"].apply(country_code)
     country_win_rate = win_rate_by(country_data, "Country")
     crm_win_rate = win_rate_by(filtered_data, "Client CRM")
+    source_win_rate = win_rate_by(filtered_data, "Source")
     country_win_rate = country_win_rate[country_win_rate["win_rate"] > 0]
     crm_win_rate = crm_win_rate[crm_win_rate["win_rate"] > 0]
+    source_win_rate = source_win_rate[source_win_rate["win_rate"] > 0]
     country_win_rate_min_5 = country_win_rate[
         country_win_rate["closed_deals"] >= 5
     ]
@@ -568,6 +570,19 @@ else:
             width="stretch",
         )
 
+    source_win_rate_chart = polished_bar_chart(
+        source_win_rate,
+        x="Source",
+        y="win_rate",
+        title="Win Rate by Source",
+        is_percent=True,
+        custom_data=["closed_deals"],
+        hovertemplate=(
+            "%{x}<br>Win rate: %{y:.1%}<br>"
+            "Closed deals: %{customdata[0]:,}<extra></extra>"
+        ),
+    )
+    st.plotly_chart(source_win_rate_chart, width="stretch")
     left, right = st.columns(2)
     with left:
         st.plotly_chart(
