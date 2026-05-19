@@ -37,7 +37,7 @@ def prepare_data(data):
             data[column] = pd.to_datetime(data[column], errors="coerce")
 
     for column in data.select_dtypes(include="object").columns:
-        if column == "PPC budget USD":
+        if column in ["PPC budget USD", "Subscription period"]:
             continue
 
         cleaned = data[column].str.replace(",", "", regex=False)
